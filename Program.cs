@@ -75,12 +75,26 @@ Sed in dui leo. Suspendisse vitae lacinia tellus. Donec sed risus at erat facili
             rsa.PersistKeyInCsp = false;
 
             // Export public and private keys
-            string publicKey = Convert.ToBase64String(rsa.ExportRSAPublicKey());
-            string privateKey = Convert.ToBase64String(rsa.ExportRSAPrivateKey());
+            /*
+            byte[] bPublicKey = rsa.ExportRSAPublicKey();
+            byte[] bPrivateKey = rsa.ExportRSAPrivateKey();
+
+            string publicKey = Convert.ToBase64String(bPublicKey);
+            string privateKey = Convert.ToBase64String(bPrivateKey);
 
             // Save to file
-            File.WriteAllText("SupPublicKey.pem", publicKey);       // Write the PEM string to a file
-            File.WriteAllText("SupPrivateKey.pem", privateKey);     // Write the PEM string to a file
+            File.WriteAllBytes("SupPublicKey.pem", bPublicKey);       // Write the PEM string to a file
+            File.WriteAllBytes("SupPrivateKey.pem", bPrivateKey);     // Write the PEM string to a file
+            */
+
+
+            byte[] bPublicKey;
+            byte[] bPrivateKey;
+
+            bPublicKey = File.ReadAllBytes("SupPublicKey.pem");
+            bPrivateKey = File.ReadAllBytes("SupPrivateKey.pem");
+            string publicKey = Convert.ToBase64String(bPublicKey);
+            string privateKey = Convert.ToBase64String(bPrivateKey);
 
             // Encrypt the long text
             string encryptedText = EncryptLongText(longText, publicKey);
