@@ -148,11 +148,17 @@ Sed in dui leo. Suspendisse vitae lacinia tellus. Donec sed risus at erat facili
     }
 
 
-    public RSA ImportPublicKeyFromFile(string filePath)
+    public static RSA ImportPublicKeyFromFile(string filePath)
     {
-        var rsa = new RSACryptoServiceProvider(2048);
-        string pem = File.ReadAllText(filePath); // Read the PEM content from the file
-        return rsa.ImportFromPem(pem); // Import the PEM formatted public key
+        // Read the PEM content from the file
+        string pem = File.ReadAllText(filePath);
+
+        // Create an RSA instance and import the public key
+        using (RSA rsa = RSA.Create())
+        {
+            rsa.ImportFromPem(pem); // Import the public key from PEM format
+            return rsa; // Return the RSA instance with the imported key
+        }
     }
 
 }
