@@ -78,6 +78,10 @@ Sed in dui leo. Suspendisse vitae lacinia tellus. Donec sed risus at erat facili
             string publicKey = Convert.ToBase64String(rsa.ExportRSAPublicKey());
             string privateKey = Convert.ToBase64String(rsa.ExportRSAPrivateKey());
 
+            // Save to file
+            File.WriteAllText("SupPublicKey.pem", publicKey);       // Write the PEM string to a file
+            File.WriteAllText("SupPrivateKey.pem", privateKey);     // Write the PEM string to a file
+
             // Encrypt the long text
             string encryptedText = EncryptLongText(longText, publicKey);
             Console.WriteLine("Encrypted Text: " + encryptedText);
@@ -142,4 +146,13 @@ Sed in dui leo. Suspendisse vitae lacinia tellus. Donec sed risus at erat facili
             return Encoding.UTF8.GetString(decryptedBytes.ToArray());
         }
     }
+
+
+    public RSA ImportPublicKeyFromFile(string filePath)
+    {
+        var rsa = new RSACryptoServiceProvider(2048);
+        string pem = File.ReadAllText(filePath); // Read the PEM content from the file
+        return rsa.ImportFromPem(pem); // Import the PEM formatted public key
+    }
+
 }
